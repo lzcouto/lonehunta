@@ -101,7 +101,7 @@ function revivePlayer(){
 function killPlayer(player, enemy){
     player.kill();
     var style = { font: "bold 20pt Arial", fill: "#ffffff", align: "center", stroke: "#000000", strokeThickness: 2 };
-    text = game.add.text(player.x - 200 ,100, 'GAMEOVER - press spacebar',style );
+    text = game.add.text(player.x - 200 ,100, 'GAMEOVER - Press Spacebar',style );
     dead = true;
 }
 
