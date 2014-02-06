@@ -21,17 +21,28 @@ function create() {
     createBackground();
     createStage();
     createPlayer();
-    createEnemy();
+    enemy = game.add.group();
+    createEnemies(3);
     createControls();
     createCamera();
 }
 /* Create Functions */
 
-function createEnemy(){
-    enemy = game.add.sprite(Math.random() * 2000, Math.random() * 300,'enemy');
-    enemy.body.gravity.y = 10;
-    enemy.body.collideWorldBounds = true;
-    var tween = game.add.tween(enemy).to( { x: 200 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
+function createEnemies(number){
+    for(var i= 0; i < number; i++){  
+    enemies = enemy.create(Math.random() * 2000, 0,'enemy');
+    enemies.body.gravity.y = Math.random() * 10;
+    enemies.body.bounce.y = 1.0;
+    enemies.body.collideWorldBounds = true;
+     var tween = game.add.tween(enemies).to({ x: Math.random() * 2000 }, 2000, Phaser.Easing.Linear.None)
+    .to({ x: Math.random() * 2000 }, 1000, Phaser.Easing.Linear.None)
+    .to({ x: Math.random() * 2000 }, 2000, Phaser.Easing.Linear.None)
+    .to({ x: Math.random() * 2000 }, 1000, Phaser.Easing.Linear.None)
+    .to({ x: Math.random() * 2000 }, 2000, Phaser.Easing.Linear.None)
+    .to({ x: Math.random() * 2000 }, 1000, Phaser.Easing.Linear.None)
+    .loop()
+    .start();
+    }
 }
 
 function createBackground(){
@@ -47,7 +58,7 @@ function createPlayer(){
     
     player = game.add.sprite(32, game.world.height - 150, 'dude');
     //player.body.bounce.y = 0.2;
-    player.body.gravity.y = 10;
+    player.body.gravity.y = 40;
     player.body.collideWorldBounds = true;
     player.animations.add('left', [0, 1, 2, 3], 10, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
@@ -64,7 +75,7 @@ function createStage(){
 
 function createRandomPlatforms(group, number){
     for(var i = 0; i < number; i++){
-        var ledge = group.create(Math.random() * 2000, Math.random() * 400, 'ground2');
+        var ledge = group.create(Math.random() * 2000, Math.random() * 350, 'ground2');
         ledge.body.immovable = true;
         ledge.scale.setTo(0.2,0.2);
     }
@@ -87,7 +98,8 @@ function update() {
 /*Update Functions*/
 function collision(){
     game.physics.collide(player, platforms);
-    game.physics.collide(enemy,platforms);
+    game.physics.collide(enemy, platforms);
+    game.physics.collide(player,enemy, killPlayer, null, this);
     game.physics.overlap(player,enemy, killPlayer, null, this);
 }
 
@@ -109,12 +121,12 @@ function playerMovement(){
     player.body.velocity.x = 0;
     if (cursors.left.isDown)
     {
-        player.body.velocity.x = -300;
+        player.body.velocity.x = -500;
         player.animations.play('left');
     }
     else if (cursors.right.isDown)
     {
-        player.body.velocity.x = 300;
+        player.body.velocity.x = 500;
         player.animations.play('right');
     }
     else
@@ -124,6 +136,10 @@ function playerMovement(){
     }
     if (cursors.up.isDown && player.body.touching.down)
     {
-        player.body.velocity.y = -350;
+        player.body.velocity.y = -900;
+    }
+    
+    if(cursors.down.isDown){
+        player.body.velocity.y = 900;
     }
 }
