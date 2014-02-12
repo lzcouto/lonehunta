@@ -1,25 +1,23 @@
 
 Game = {};
 
-Game.Boot = function (game) { };
+//Game.Boot = function (game) { };
 
-Game.Boot.prototype = {
+Game.Boot = function (game) {
 
-  preload: function () {
+  this.preload = function () {
     /* load images for Load screen */
-  },
+  };
   
-  create: function() {
+  this.create = function() {
     game.state.start('Load');
-  }
+  };
 
 };
 
-Game.Load = function (game) { };
-
-Game.Load.prototype = {
+Game.Load = function (game) {
   
-  preload: function () {
+  this.preload = function () {
     /* Load game resources (images, texts, sprites, etc) */
     game.load.image('enemy',      'assets/ufo.png');
     game.load.image('ground',     'assets/platform.png');
@@ -30,7 +28,7 @@ Game.Load.prototype = {
     game.load.spritesheet('trophy', 'assets/coin.png', 32, 32);
   },
   
-  create: function () {
+  this.create = function () {
     game.state.start('Menu');
   }
 };

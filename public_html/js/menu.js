@@ -1,18 +1,18 @@
 
-Game.Menu = function (game) { };
+//Game.Menu = function (game) { };
 
-Game.Menu.prototype = {
+Game.Menu = function(game){
 
-  create: function () {
+  this.create = function () {
     /* Create menu screen (images, sounds, animations, etc) */
-  },
+  };
 
-  update: function() {
+  this.update = function() {
 
     /* condition to start the game */
     if (true) {
       game.state.start('Play');
     }
-  }
+  };
 
 };
