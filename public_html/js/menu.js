@@ -11,7 +11,7 @@ Game.Menu = function(game){
 
     /* condition to start the game */
     if (true) {
-      game.state.start('Play');
+      game.state.start('Survival');
     }
   };
 

@@ -26,9 +26,9 @@ Game.Load = function (game) {
 
     game.load.spritesheet('dude',   'assets/dude.png', 32, 48);
     game.load.spritesheet('trophy', 'assets/coin.png', 32, 32);
-  },
+  };
   
   this.create = function () {
     game.state.start('Menu');
-  }
+  };
 };

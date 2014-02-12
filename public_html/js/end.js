@@ -1,5 +1,5 @@
 
-Game.Dead = function (game) {
+Game.End = function (game) {
 
   this.create = function () {
       /* Create the GAME OVER screen */
@@ -9,7 +9,7 @@ Game.Dead = function (game) {
     
     /* condition to restart the game */
     if (true) {
-      game.state.start('Play');
+      game.state.start('Menu');
     }
   };
 
