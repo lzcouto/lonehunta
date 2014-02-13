@@ -1,30 +1,28 @@
 
 Game.Play = function() {
-    this.hard = 3;
-    this.score = '';
-    this.winCount = 0;
 
 
-    this.createStage = function() {
-
-        game.world.setBounds(0, 0, 3000, 400);
-
-        for (var i = 0; i < 10; i++) {
-            game.add.sprite(300 * i, 0, 'background').scale.setTo(1.6, 1.6);
-        }
-
+    this.createGroups = function() {
         this.platforms = game.add.group();
         this.enemies = game.add.group();
-
-        var ground = this.platforms.create(0, game.world.height - 32, 'ground');
-        ground.scale.setTo(20, 1);
-        ground.body.immovable = true;
-
-        this.createRandomPlatforms(this.platforms, 20);
     };
 
-    this.createTrophy = function() {
-        this.trophy = game.add.sprite(2990, game.world.height - 150, 'trophy');
+    this.createStage = function(height, width, background, platform) {
+        game.world.setBounds(0, 0, height, width);
+
+        for (var i = 0; i < width / 800; i++) {
+            game.add.sprite(i, 0, background);
+        }
+        this.platforms = game.add.group();
+        for (var i = 0; i < height; i = i + 50) {
+            var ground = this.platforms.create(i, width - 32, platform);
+            ground.body.immovable = true;
+        }
+
+    };
+
+    this.createTrophy = function(spawnWidth, spawnHeight) {
+        this.trophy = game.add.sprite(spawnWidth, spawnHeight, 'trophy');
         this.trophy.body.gravity.y = 40;
         this.trophy.body.collideWorldBounds = true;
         this.trophy.animations.add('spin', [0, 1, 2, 3, 4, 5], 10, true);
@@ -32,60 +30,42 @@ Game.Play = function() {
     };
 
 
-    this.createPlayer = function() {
-        this.player = game.add.sprite(32, game.world.height - 150, 'dude');
+    this.createPlayer = function(spawnWidth, spawnHeight) {
+        this.player = game.add.sprite(spawnWidth, spawnHeight, 'dude');
         this.player.body.gravity.y = 40;
         this.player.body.collideWorldBounds = true;
         this.player.animations.add('left', [0, 1, 2, 3], 10, true);
         this.player.animations.add('right', [5, 6, 7, 8], 10, true);
     };
 
-
-    this.createScore = function() {
-        var style = {
-            font: "bold 20pt Arial",
-            fill: "#ffffff",
-            align: "center",
-            stroke: "#000000",
-            strokeThickness: 2
-        };
-
-        this.score = game.add.text(game.camera.x + 10, 10, 'W/D: ' + this.winCount, style);
-    };
-
-
-    this.createEnemies = function(number) {
-
-
+    this.createEnemies = function(number, width, sprite) {
         for (var i = 0; i < number; i++) {
-            var enemy = this.enemies.create(Math.random() * 3000, 0, 'enemy');
+            var enemy = this.enemies.create(Math.random() * width, 0, sprite);
             enemy.body.bounce.y = 1.0;
             enemy.body.collideWorldBounds = true;
             enemy.body.gravity.y = Math.random() * 10;
-
             game.add.tween(enemy)
-                    .to({x: Math.random() * 3000}, 2000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * 3000}, 1000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * 3000}, 2000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * 3000}, 1000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * 3000}, 2000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * 3000}, 1000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * wdith}, 1000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 1000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 1000, Phaser.Easing.Linear.None)
                     .loop()
                     .start();
         }
     };
 
 
-    this.createCamera = function() {
-        game.camera.follow(this.player);
+    this.createCamera = function(follower) {
+        game.camera.follow(follower);
     };
 
 
-    this.createRandomPlatforms = function(group, number) {
+    this.createRandomPlatforms = function(number, width, height, sprite) {
         for (var i = 0; i < number; i++) {
-            var ledge = group.create(Math.random() * 3000, Math.random() * 350, 'ground2');
+            var ledge = this.platforms.create(Math.random() * width, Math.random() * height, sprite);
             ledge.body.immovable = true;
-            ledge.scale.setTo(0.2, 0.2);
         }
     };
 
@@ -95,112 +75,28 @@ Game.Play = function() {
     };
 
 
-    this.collision = function() {
-        game.physics.collide(this.player, this.platforms);
-        game.physics.collide(this.trophy, this.platforms);
-        game.physics.collide(this.enemies, this.platforms);
-
-        game.physics.collide(this.player, this.enemies, this.killPlayer, null, this);
-        game.physics.overlap(this.player, this.enemies, this.killPlayer, null, this);
-
-        game.physics.collide(this.player, this.trophy, this.winGame, null, this);
-        game.physics.overlap(this.player, this.trophy, this.winGame, null, this);
+    this.createCollision = function(object1, object2) {
+        game.physics.collide(object1, object2);
     };
 
-
-    this.checkPlayerDeath = function() {
-        if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && this.dead) {
-            this.revivePlayer();
-        }
+    this.createOverlap = function(object1, object2) {
+        game.physics.overlap(object1, object2);
     };
 
-
-    this.revivePlayer = function() {
-        this.createPlayer();
-        this.createCamera();
-        this.text.destroy();
-        this.createEnemies(1);
-        this.dead = false;
-    };
-
-
-    this.checkImpossible = function() {
-
-        if (this.winCount < -20) {
-
-            var style = {
-                font: "bold 20pt Arial",
-                fill: "#ffffff",
-                align: "center",
-                stroke: "#000000",
-                strokeThickness: 2
-            };
-
-            this.text.destroy();
-            this.text = game.add.text(game.camera.x + 300, 150, 'NOOB - GameReset!', style);
-            this.killAllEnemies();
-            this.winCount = 0;
-        }
-    };
-
-
-    this.winGame = function(player, trophy) {
-        this.player.kill();
-
-        var style = {
-            font: "bold 20pt Arial",
-            fill: "#ffffff",
-            align: "center",
-            stroke: "#000000",
-            strokeThickness: 2
-        };
-
-        this.text = game.add.text(game.camera.x + 170, 150, 'YOU WIN! (nothing) - Press Spacebar', style);
+    this.killPlayer = function() {
         this.dead = true;
-        this.killEnemies();
-        this.winCount++;
-    };
-
-
-    this.killPlayer = function(player, enemy) {
-        var style = {
-            font: "bold 20pt Arial",
-            fill: "#ffffff",
-            align: "center",
-            stroke: "#000000",
-            strokeThickness: 2
-        };
-
-        this.text = game.add.text(game.camera.x + 220, 150, 'GAMEOVER - Press Spacebar', style);
-        this.dead = true;
-        this.winCount--;
         this.player.kill();
+        setTimeout(game.state.start('End'), 1000);
     };
 
 
-    this.killEnemies = function() {
+    this.killEnemiy = function() {
         this.enemies.getRandom().kill();
     };
 
 
     this.killAllEnemies = function() {
         this.enemies.callAll('kill');
-        this.createEnemies(this.hard);
-    };
-
-
-    this.updateScore = function() {
-        this.score.destroy();
-
-        var style = {
-            font: "bold 20pt Arial",
-            fill: "#ffffff",
-            align: "center",
-            stroke: "#000000",
-            strokeThickness: 2
-        };
-
-        this.score = game.add.text(game.camera.x + 10, 10, 'W/D: ' + this.winCount, style);
     };
 
     this.playerMovement = function() {
@@ -215,6 +111,7 @@ Game.Play = function() {
         {
             this.player.body.velocity.x = 500;
             this.player.animations.play('right');
+            
         }
         else
         {

@@ -1,4 +1,4 @@
-Game.Casual = function(game) {
+Game.Credits = function(game) {
     this.create = function() {
 
     };
@@ -6,5 +6,3 @@ Game.Casual = function(game) {
     this.update = function() {
     };
 };
-
-Game.Casual.prototype = new Game.Play();

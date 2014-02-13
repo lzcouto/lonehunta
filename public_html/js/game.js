@@ -1,8 +1,9 @@
-    var game = new Phaser.Game(800, 400, Phaser.AUTO, 'game-container');
+var game = new Phaser.Game(800, 400, Phaser.AUTO, 'game-container');
 
 game.state.add('Boot', Game.Boot);
 game.state.add('Load', Game.Load);
 game.state.add('Menu', Game.Menu);
+game.state.add('Credits', Game.Credits);
 game.state.add('Survival', Game.Survival);
 game.state.add('TimeAttack', Game.TimeAttack);
 game.state.add('Casual', Game.Casual);
