@@ -15,7 +15,7 @@ Game.Play = function() {
         }
         this.platforms = game.add.group();
         for (var i = 0; i < height; i = i + 50) {
-            var ground = this.platforms.create(i, width - 32, platform);
+            var ground = this.platforms.create(i, width - 30, platform);
             ground.body.immovable = true;
         }
 

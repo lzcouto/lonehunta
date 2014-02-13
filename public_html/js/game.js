@@ -10,3 +10,8 @@ game.state.add('Casual', Game.Casual);
 game.state.add('End', Game.End);
 
 game.state.start('Boot');
+
+Phaser.Physics.Arcade.prototype.separate = function (body1, body2) {
+
+        this._result = (this.separateY(body1, body2) || this.separateX(body1, body2));
+};
