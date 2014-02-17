@@ -46,7 +46,7 @@ Game.Play = function() {
             enemy.body.gravity.y = Math.random() * 10;
             game.add.tween(enemy)
                     .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * wdith}, 1000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 1000, Phaser.Easing.Linear.None)
                     .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
                     .to({x: Math.random() * width}, 1000, Phaser.Easing.Linear.None)
                     .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)

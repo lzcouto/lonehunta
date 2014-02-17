@@ -17,8 +17,7 @@ Game.Menu = function(game) {
     };
     
     this.update = function() {
-        this.createCollision(this.player,this.platforms);
-       
+        this.createCollision(this.player,this.platforms);   
         this.playerMovement();
     };
     
