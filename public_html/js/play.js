@@ -1,21 +1,19 @@
 
-Game.Play = function() {
-
-
+Game.Play = function() {    
     this.createGroups = function() {
         this.platforms = game.add.group();
         this.enemies = game.add.group();
     };
 
-    this.createStage = function(height, width, background, platform) {
-        game.world.setBounds(0, 0, height, width);
+    this.createStage = function(width, height, background, platform) {
+        game.world.setBounds(0, 0, width, height);
 
-        for (var i = 0; i < width / 800; i++) {
+        for (var i = 0; i < width; i = i + 400) {
             game.add.sprite(i, 0, background);
         }
         this.platforms = game.add.group();
-        for (var i = 0; i < height; i = i + 50) {
-            var ground = this.platforms.create(i, width - 30, platform);
+        for (var i = 0; i < width; i = i + 50) {
+            var ground = this.platforms.create(i, 370, platform);
             ground.body.immovable = true;
         }
 
@@ -86,7 +84,6 @@ Game.Play = function() {
     this.killPlayer = function() {
         this.dead = true;
         this.player.kill();
-        setTimeout(game.state.start('End'), 1000);
     };
 
 
@@ -129,5 +126,4 @@ Game.Play = function() {
             this.player.body.velocity.y = 1800;
         }
     };
-
 };

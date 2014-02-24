@@ -5,8 +5,6 @@ Game.Menu = function(game) {
 
     
     this.create = function() {
-        /* Create menu screen (images, sounds, animations, etc) */
-        //this.createGroups();
         this.createStage(800,400,'background','ground');
         this.createControls();
         this.createPlayer(15,15);
