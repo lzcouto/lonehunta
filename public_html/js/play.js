@@ -1,11 +1,8 @@
 
-Game.Play = function() {    
-    this.createGroups = function() {
-        this.platforms = game.add.group();
-        this.enemies = game.add.group();
-    };
+Game.Play = function() {
 
     this.createStage = function(width, height, background, platform) {
+
         game.world.setBounds(0, 0, width, height);
 
         for (var i = 0; i < width; i = i + 400) {
@@ -29,6 +26,7 @@ Game.Play = function() {
 
 
     this.createPlayer = function(spawnWidth, spawnHeight) {
+        game.time.reset();
         this.player = game.add.sprite(spawnWidth, spawnHeight, 'dude');
         this.player.body.gravity.y = 40;
         this.player.body.collideWorldBounds = true;
@@ -37,18 +35,19 @@ Game.Play = function() {
     };
 
     this.createEnemies = function(number, width, sprite) {
+        this.enemies = game.add.group();
         for (var i = 0; i < number; i++) {
             var enemy = this.enemies.create(Math.random() * width, 0, sprite);
             enemy.body.bounce.y = 1.0;
             enemy.body.collideWorldBounds = true;
             enemy.body.gravity.y = Math.random() * 10;
             game.add.tween(enemy)
-                    .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 1000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 1000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 1000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 5000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 6000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 5000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 6000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 5000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 6000, Phaser.Easing.Linear.None)
                     .loop()
                     .start();
         }
@@ -73,12 +72,25 @@ Game.Play = function() {
     };
 
 
-    this.createCollision = function(object1, object2) {
-        game.physics.collide(object1, object2);
+    this.createCollision = function(object1, object2, func) {
+        if (func)
+        {
+            game.physics.collide(object1,object2,func,null,this);
+        } else {
+            game.physics.collide(object1, object2);
+        }
+
     };
 
-    this.createOverlap = function(object1, object2) {
-        game.physics.overlap(object1, object2);
+
+
+    this.createOverlap = function(object1, object2, func) {
+        if (func)
+        {
+            game.physics.collide(object1,object2, func, null, this);
+        } else {
+            game.physics.overlap(object1, object2);
+        }
     };
 
     this.killPlayer = function() {
@@ -96,6 +108,12 @@ Game.Play = function() {
         this.enemies.callAll('kill');
     };
 
+    this.createScore = function(text, x, y) {
+        game.context.font = "40px Arial";
+        game.context.fillStyle = "Black";
+        game.context.fillText(text, x, y);
+    };
+
     this.playerMovement = function() {
         this.player.body.velocity.x = 0;
 
@@ -108,7 +126,7 @@ Game.Play = function() {
         {
             this.player.body.velocity.x = 500;
             this.player.animations.play('right');
-            
+
         }
         else
         {

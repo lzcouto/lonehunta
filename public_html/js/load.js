@@ -45,6 +45,7 @@ Game.Load = function(game) {
         /* Load game resources (images, texts, sprites, etc) */
         game.load.image('enemy', 'assets/ufo.png');
         game.load.image('ground', 'assets/ground.png');
+        game.load.image('platform','assets/platform.png');
         game.load.image('buttonSurvival', 'assets/survival-button.png');
         game.load.image('buttonCasual', 'assets/casual-button.png');
         game.load.image('buttonAttack', 'assets/tattack-button.png');
