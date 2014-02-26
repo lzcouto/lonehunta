@@ -1,4 +1,5 @@
-
+var gameState = 0;
+var stateChange = false;
 Game = {};
 
 //Game.Boot = function (game) { };
@@ -50,8 +51,14 @@ Game.Load = function(game) {
         game.load.image('buttonCasual', 'assets/casual-button.png');
         game.load.image('buttonAttack', 'assets/tattack-button.png');
         game.load.image('buttonCredits', 'assets/credits-button.png');
+        game.load.image('buttonMenu','assets/menu-button.png');
+        game.load.image('buttonRestart','assets/restart-button.png');
         game.load.image('background', 'assets/background.png');
-        game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+        game.load.image('gameOver','assets/gameover.png');
+        
+        
+        
+        game.load.spritesheet('dude', 'assets/ninja.png', 32, 38);
         game.load.spritesheet('trophy', 'assets/coin.png', 32, 32);
 
         this.preloadBG = this.add.sprite(330, 250, 'loadingtxt');

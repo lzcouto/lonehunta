@@ -1,6 +1,7 @@
 
 Game.Play = function() {
-
+    this.currentState;
+    this.moving;
     this.createStage = function(width, height, background, platform) {
 
         game.world.setBounds(0, 0, width, height);
@@ -26,12 +27,13 @@ Game.Play = function() {
 
 
     this.createPlayer = function(spawnWidth, spawnHeight) {
-        game.time.reset();
         this.player = game.add.sprite(spawnWidth, spawnHeight, 'dude');
+        this.player.alive = true;
         this.player.body.gravity.y = 40;
         this.player.body.collideWorldBounds = true;
         this.player.animations.add('left', [0, 1, 2, 3], 10, true);
         this.player.animations.add('right', [5, 6, 7, 8], 10, true);
+        
     };
 
     this.createEnemies = function(number, width, sprite) {
@@ -94,7 +96,7 @@ Game.Play = function() {
     };
 
     this.killPlayer = function() {
-        this.dead = true;
+        this.player.alive = false;
         this.player.kill();
     };
 
@@ -121,27 +123,36 @@ Game.Play = function() {
         {
             this.player.body.velocity.x = -500;
             this.player.animations.play('left');
+            this.moving = true;
         }
         else if (cursors.right.isDown)
         {
             this.player.body.velocity.x = 500;
             this.player.animations.play('right');
+            this.moving = true;
 
         }
         else
         {
             this.player.animations.stop();
             this.player.frame = 4;
+            this.moving = false;
         }
 
         if (cursors.up.isDown && this.player.body.touching.down)
         {
             this.player.body.velocity.y = -900;
+            this.moving = true;
         }
 
         if (cursors.down.isDown)
         {
             this.player.body.velocity.y = 1800;
+            this.moving = true;
         }
+    };
+    
+    this.createButton = function(spritesheet, width, height, func){
+        button = game.add.button(width, height, spritesheet, func, this, 1, 0, 2);
     };
 };
