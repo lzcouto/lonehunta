@@ -15,6 +15,7 @@ Game.Play = function() {
         }
         this.platforms.setAll('body.immovable', true);
         this.platforms.setAll('body.mass', 10000);
+        this.platforms.setAll('body.collideWorldBounds', true);
     };
 
     this.createTrophy = function(spawnWidth, spawnHeight) {
@@ -34,7 +35,7 @@ Game.Play = function() {
         this.player.body.collideWorldBounds = true;
         this.player.animations.add('left', [0, 1, 2, 3], 10, true);
         this.player.animations.add('right', [5, 6, 7, 8], 10, true);
-        
+
     };
 
     this.createEnemies = function(number, width, sprite) {
@@ -67,7 +68,8 @@ Game.Play = function() {
             var ledge = this.platforms.create(Math.random() * width, Math.random() * height, sprite);
         }
         this.platforms.setAll('body.immovable', true);
-         this.platforms.setAll('body.mass', 10000);
+        this.platforms.setAll('body.mass', 10000);
+        this.platforms.setAll('body.collideWorldBounds', true);
     };
 
 
@@ -79,7 +81,7 @@ Game.Play = function() {
     this.createCollision = function(object1, object2, func) {
         if (func)
         {
-            game.physics.collide(object1,object2,func,null,this);
+            game.physics.collide(object1, object2, func, null, this);
         } else {
             game.physics.collide(object1, object2);
         }
@@ -91,7 +93,7 @@ Game.Play = function() {
     this.createOverlap = function(object1, object2, func) {
         if (func)
         {
-            game.physics.collide(object1,object2, func, null, this);
+            game.physics.collide(object1, object2, func, null, this);
         } else {
             game.physics.overlap(object1, object2);
         }
@@ -153,8 +155,8 @@ Game.Play = function() {
             this.moving = true;
         }
     };
-    
-    this.createButton = function(spritesheet, width, height, func){
+
+    this.createButton = function(spritesheet, width, height, func) {
         button = game.add.button(width, height, spritesheet, func, this, 1, 0, 2);
     };
 };
