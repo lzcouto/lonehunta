@@ -12,7 +12,7 @@ Game.Survival = function(game) {
     };
 
     this.update = function() {
-        
+
         this.createCollision(this.player, this.platforms, null);
         this.createCollision(this.trophy, this.platforms, null);
         this.createCollision(this.enemies, this.platforms, null);
@@ -26,7 +26,9 @@ Game.Survival = function(game) {
             gameover.alpha = 0;
             game.add.tween(gameover)
                     .to({alpha: 1}, 2000, Phaser.Easing.Linear.None, true)
-                    .onCompleteCallback(function() {stateChange = true;}, this);
+                    .onUpdateCallback(function() {
+                        stateChange = true;
+                    }, this);
         }
         if (stateChange)
         {
@@ -36,10 +38,11 @@ Game.Survival = function(game) {
     };
 
     this.render = function() {
-        if (this.player.alive && this.moving)
-            this.createScore(this.time++, 20, 60);
-        else
-            this.createScore(this.time, 20, 60)
+        this.createScore(game.time.fps, 20, 60);
+        /*if (this.player.alive && this.moving)
+         this.createScore(this.time++, 20, 60);
+         else
+         this.createScore(this.time, 20, 60)*/
     };
 };
 

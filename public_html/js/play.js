@@ -12,7 +12,6 @@ Game.Play = function() {
         this.platforms = game.add.group();
         for (var i = 0; i < width; i = i + 50) {
             var ground = this.platforms.create(i, 370, platform);
-            ground.body.immovable = true;
         }
 
     };
@@ -29,7 +28,8 @@ Game.Play = function() {
     this.createPlayer = function(spawnWidth, spawnHeight) {
         this.player = game.add.sprite(spawnWidth, spawnHeight, 'dude');
         this.player.alive = true;
-        this.player.body.gravity.y = 40;
+        this.player.body.gravity.y = 500;
+        this.player.body.acceleration.y = 800;
         this.player.body.collideWorldBounds = true;
         this.player.animations.add('left', [0, 1, 2, 3], 10, true);
         this.player.animations.add('right', [5, 6, 7, 8], 10, true);
@@ -64,8 +64,9 @@ Game.Play = function() {
     this.createRandomPlatforms = function(number, width, height, sprite) {
         for (var i = 0; i < number; i++) {
             var ledge = this.platforms.create(Math.random() * width, Math.random() * height, sprite);
-            ledge.body.immovable = true;
         }
+        this.platforms.setAll("body.immovable", true);
+        this.platforms.setAll("body.allowGravity", false);
     };
 
 
@@ -141,13 +142,13 @@ Game.Play = function() {
 
         if (cursors.up.isDown && this.player.body.touching.down)
         {
-            this.player.body.velocity.y = -900;
+            this.player.body.velocity.y = -700;
             this.moving = true;
         }
 
         if (cursors.down.isDown)
         {
-            this.player.body.velocity.y = 1800;
+            this.player.body.velocity.y = 700;
             this.moving = true;
         }
     };
