@@ -13,7 +13,8 @@ Game.Play = function() {
         for (var i = 0; i < width; i = i + 50) {
             var ground = this.platforms.create(i, 370, platform);
         }
-
+        this.platforms.setAll('body.immovable', true);
+        this.platforms.setAll('body.mass', 10000);
     };
 
     this.createTrophy = function(spawnWidth, spawnHeight) {
@@ -28,8 +29,8 @@ Game.Play = function() {
     this.createPlayer = function(spawnWidth, spawnHeight) {
         this.player = game.add.sprite(spawnWidth, spawnHeight, 'dude');
         this.player.alive = true;
-        this.player.body.gravity.y = 500;
-        this.player.body.acceleration.y = 800;
+        this.player.body.gravity.y = 600;
+        this.player.body.acceleration.y = 700;
         this.player.body.collideWorldBounds = true;
         this.player.animations.add('left', [0, 1, 2, 3], 10, true);
         this.player.animations.add('right', [5, 6, 7, 8], 10, true);
@@ -65,8 +66,8 @@ Game.Play = function() {
         for (var i = 0; i < number; i++) {
             var ledge = this.platforms.create(Math.random() * width, Math.random() * height, sprite);
         }
-        this.platforms.setAll("body.immovable", true);
-        this.platforms.setAll("body.allowGravity", false);
+        this.platforms.setAll('body.immovable', true);
+         this.platforms.setAll('body.mass', 10000);
     };
 
 
