@@ -9,8 +9,8 @@ Game.Play = function() {
             game.add.sprite(i, 0, background);
         }
         this.platforms = game.add.group();
-        for (var i = 0; i < width; i = i + 50) {
-            var ground = this.platforms.create(i, 370, platform);
+        for (var i = 0; i <= width; i = i + 50) {
+            this.platforms.create(i, 370, platform);
         }
         this.platforms.setAll('body.immovable', true);
         this.platforms.setAll('body.mass', 10000);
@@ -30,8 +30,8 @@ Game.Play = function() {
         this.player = game.add.sprite(spawnWidth, spawnHeight, 'dude');
         this.player.alive = true;
         this.player.body.gravity.y = 600;
-        this.player.body.acceleration.y = 700;
-        this.player.body.collideWorldBounds = true;
+        this.player.body.acceleration.y = 1000;
+        this.player.body.collideWorldBounds = false;
         this.player.animations.add('left', [0, 1, 2, 3], 10, true);
         this.player.animations.add('right', [5, 6, 7, 8], 10, true);
 
@@ -43,14 +43,15 @@ Game.Play = function() {
             var enemy = this.enemies.create(Math.random() * width, 0, sprite);
             enemy.body.bounce.y = 1.0;
             enemy.body.collideWorldBounds = true;
-            enemy.body.gravity.y = Math.random() * 10;
+            enemy.body.gravity.y = 600;
+            enemy.body.acceleration.y = Math.random() * 1000;
             game.add.tween(enemy)
-                    .to({x: Math.random() * width}, 5000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 6000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 5000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 6000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 5000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 6000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 1000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 1000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * width}, 1000, Phaser.Easing.Linear.None)
                     .loop()
                     .start();
         }
@@ -62,7 +63,7 @@ Game.Play = function() {
     };
 
 
-    this.createRandomPlatforms = function(number, width, height, sprite) {
+    this.createRandomPlatforms = function(width, height, sprite) {
         
         // determina a partir de quantos % o inicia a area de criacao de ledges
         var START_LEDGES_AREA = 0.1;
@@ -185,6 +186,18 @@ Game.Play = function() {
         game.context.fillText(text, x, y);
     };
 
+    this.collideLeftRight = function(){
+         if(this.player.x < this.player._cache.halfWidth) {
+            this.player.x = this.player._cache.halfWidth;
+            this.player.body.velocity.x *= this.player.body.bounce.x;
+        }
+        if(this.player.x > game.world.width - this.player._cache.width) {
+            this.player.x = game.world.width - this.player._cache.width;
+            this.player.body.velocity.x *= -this.player.body.bounce.x;
+        }
+        
+    };
+    
     this.playerMovement = function() {
         this.player.body.velocity.x = 0;
 

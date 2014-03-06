@@ -6,8 +6,9 @@ Game = {};
 
 Game.Boot = function(game) {
 
-    var statechange = false;
-
+    //var statechange = false;
+    var statechange = true;
+    
     this.preload = function() {
         game.load.image('logo', 'assets/logo.png');
         game.load.image('bg', 'assets/boot.png');
@@ -17,7 +18,7 @@ Game.Boot = function(game) {
     };
 
     this.create = function() {
-        var bg = game.add.sprite(0, 0, 'bg');
+      /*  var bg = game.add.sprite(0, 0, 'bg');
         var logo = game.add.sprite(250, 40, 'logo');
         logo.alpha = 0;
         game.add.tween(logo)
@@ -25,13 +26,13 @@ Game.Boot = function(game) {
                 .to({alpha: 0}, 1000, Phaser.Easing.Linear.None, true);
         game.add.tween(bg)
                 .to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true);
-
+*/
     };
 
     this.update = function() {
-        setTimeout(function() {
+       /* setTimeout(function() {
             statechange = true;
-        }, 5500);
+        }, 5500);*/
         if (statechange)
         {
             game.state.start('Load');
@@ -76,7 +77,7 @@ Game.Load = function(game) {
     };
 
     this.create = function() {
-        game.state.start('Menu');
+        game.state.start('Survival');
     };
 
 
