@@ -1,4 +1,3 @@
-
 Game.Play = function() {
     this.currentState;
     this.moving;
@@ -64,11 +63,77 @@ Game.Play = function() {
 
 
     this.createRandomPlatforms = function(number, width, height, sprite) {
-        for (var i = 0; i < number; i++) {
-            var ledge = this.platforms.create(Math.random() * width, Math.random() * height, sprite);
+        
+        // determina a partir de quantos % o inicia a area de criacao de ledges
+        var START_LEDGES_AREA = 0.1;
+        
+        // determina a altura maxima do salto em pixels
+        var JMP_HEIGHT = 120;
+        
+        // determina a probabilidade de criar um ledge
+        // onde a probabilidalidade real é 1 - PROB
+        var PROB = 0.3; // 70%
+        
+        // gap max/min no eixo Y para se criar um ledge
+        // em relacao ao ledge anterior
+        var GAP = 30;
+        
+        // determina as dimensoes do sprite
+        var WSPRITE = 150;
+        var HSPRITE = 7;
+
+        // define a posicao inicial para iniciar a criação 
+        // dos ledges, ignorando os primeiros 10% do mapa
+        var WSTART = width * START_LEDGES_AREA;
+
+        // determina a posicao x, y do primeiro ledge
+        var y = height - (Math.random() * height / 2.5);
+        var x = WSTART;
+
+        this.platforms.create(x, y, sprite);
+
+        lastX = x;
+        lastY = y;
+
+        for (var i = WSTART; i < width; i += WSPRITE)
+        {
+
+            // condicao para a criação de um ledge
+            if (Math.random() > PROB) {
+
+                // define o gap onde nao se pode criar ledge
+                // de modo a evitar que se crie duas ledges
+                // uma do lado da outra
+                var minGap = lastY - GAP;
+                var maxGap = lastY + GAP;
+
+                // caso o Y seja gerado dentro da area do GAP
+                // o ledge é jogado 30px acima ou 30px abaixo
+                if (y > minGap && y < lastY) {
+                    y -= GAP;
+                } else if (y < maxGap && y > lastY) {
+                    y += GAP;
+                }
+
+                // cria o ledge do canvas
+                this.platforms.create(x, y, sprite);
+
+                // cria um backup da posição gerada
+                lastX = x;
+                lastY = y;
+            }
+
+            // recalcula a proxima ledge baseado na ultima ledge criada
+            x += WSPRITE;
+
+            // determina a altura minima que pode ser criado o proximo ledge
+            // onde se decrementa a altura do salto em relação a posicao do ultimo ledge
+            var min = (lastY - JMP_HEIGHT);
+            y = Math.random() * (height - min) + min;
         }
-        this.platforms.setAll('body.immovable', true);
+
         this.platforms.setAll('body.mass', 10000);
+        this.platforms.setAll('body.immovable', true);
         this.platforms.setAll('body.collideWorldBounds', true);
     };
 
