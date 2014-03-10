@@ -13,8 +13,9 @@ Game.Play = function() {
             this.platforms.create(i, 370, platform);
         }
         this.platforms.setAll('body.immovable', true);
-        this.platforms.setAll('body.mass', 10000);
         this.platforms.setAll('body.collideWorldBounds', true);
+        //    this.platforms.setAll('body.blocked',  this.blocked = { x: 0, y: 0, up: true, down: true, left: true, right: true});
+
     };
 
     this.createTrophy = function(spawnWidth, spawnHeight) {
@@ -43,15 +44,14 @@ Game.Play = function() {
             var enemy = this.enemies.create(Math.random() * width, 0, sprite);
             enemy.body.bounce.y = 1.0;
             enemy.body.collideWorldBounds = true;
-            enemy.body.gravity.y = 600;
-            enemy.body.acceleration.y = Math.random() * 1000;
+            enemy.body.gravity.y = -1;
+            enemy.body.acceleration.y = Math.random() * 100;
             game.add.tween(enemy)
-                    .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 1000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 1000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 2000, Phaser.Easing.Linear.None)
-                    .to({x: Math.random() * width}, 1000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * 3100}, 1000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * 3100}, 1000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * 3100}, 1000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * 3100}, 1000, Phaser.Easing.Linear.None)
+                    .to({x: Math.random() * 3100}, 1000, Phaser.Easing.Linear.None)
                     .loop()
                     .start();
         }
@@ -64,21 +64,21 @@ Game.Play = function() {
 
 
     this.createRandomPlatforms = function(width, height, sprite) {
-        
+
         // determina a partir de quantos % o inicia a area de criacao de ledges
         var START_LEDGES_AREA = 0.1;
-        
+
         // determina a altura maxima do salto em pixels
         var JMP_HEIGHT = 120;
-        
+
         // determina a probabilidade de criar um ledge
         // onde a probabilidalidade real é 1 - PROB
         var PROB = 0.3; // 70%
-        
+
         // gap max/min no eixo Y para se criar um ledge
         // em relacao ao ledge anterior
-        var GAP = 30;
-        
+        var GAP = 42;
+
         // determina as dimensoes do sprite
         var WSPRITE = 150;
         var HSPRITE = 7;
@@ -90,8 +90,8 @@ Game.Play = function() {
         // determina a posicao x, y do primeiro ledge
         var y = height - (Math.random() * height / 2.5);
         var x = WSTART;
-
-        this.platforms.create(x, y, sprite);
+        this.ledges = game.add.group();
+        this.ledges.create(x, y, sprite);
 
         lastX = x;
         lastY = y;
@@ -117,7 +117,7 @@ Game.Play = function() {
                 }
 
                 // cria o ledge do canvas
-                this.platforms.create(x, y, sprite);
+                this.ledges.create(x, y, sprite);
 
                 // cria um backup da posição gerada
                 lastX = x;
@@ -133,9 +133,9 @@ Game.Play = function() {
             y = Math.random() * (height - min) + min;
         }
 
-        this.platforms.setAll('body.mass', 10000);
-        this.platforms.setAll('body.immovable', true);
-        this.platforms.setAll('body.collideWorldBounds', true);
+        this.ledges.setAll('body.immovable', true);
+        this.ledges.setAll('body.collideWorldBounds', true);
+        //  this.ledges.setAll('body.blocked',  this.blocked = { x: 0, y: 0, up: true, down: true, left: true, right: true});
     };
 
 
@@ -186,18 +186,22 @@ Game.Play = function() {
         game.context.fillText(text, x, y);
     };
 
-    this.collideLeftRight = function(){
-         if(this.player.x < this.player._cache.halfWidth) {
-            this.player.x = this.player._cache.halfWidth;
-            this.player.body.velocity.x *= this.player.body.bounce.x;
+    this.collideLeftRight = function() {
+        if (this.player.x < this.player._cache.halfWidth) {
+            //this.player.x = this.player._cache.halfWidth;
+            this.player.x += 1;
+            this.player.body.velocity.x *= this.player.body.bounce.x * 10000;
         }
-        if(this.player.x > game.world.width - this.player._cache.width) {
-            this.player.x = game.world.width - this.player._cache.width;
-            this.player.body.velocity.x *= -this.player.body.bounce.x;
+        if (this.player.x > game.world.width - this.player._cache.width) {
+            //   this.player.x = game.world.width - this.player._cache.width;
+            this.player.x -= 1;
+            this.player.body.velocity.x *= -this.player.body.bounce.x * 10000;
         }
-        
+
     };
-    
+
+
+
     this.playerMovement = function() {
         this.player.body.velocity.x = 0;
 
