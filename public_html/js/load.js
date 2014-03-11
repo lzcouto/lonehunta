@@ -1,5 +1,6 @@
 var gameState = 0;
 var stateChange = false;
+var time = 0;
 Game = {};
 
 //Game.Boot = function (game) { };
@@ -33,6 +34,7 @@ Game.Boot = function(game) {
         setTimeout(function() {
             statechange = true;
         }, 5500);
+        
         if (statechange)
         {
             game.state.start('Load');
@@ -47,7 +49,9 @@ Game.Load = function(game) {
         /* Load game resources (images, texts, sprites, etc) */
         game.load.image('enemy', 'assets/ufo.png');
         game.load.image('ground', 'assets/ground.png');
+        game.load.image('groundMetal', 'assets/groundStreet.png');
         game.load.image('platform', 'assets/platform.png');
+        game.load.image('platformMetal','assets/platformMetal.png');
         game.load.image('buttonSurvival', 'assets/survival-button.png');
         game.load.image('buttonCasual', 'assets/casual-button.png');
         game.load.image('buttonAttack', 'assets/tattack-button.png');
@@ -55,7 +59,9 @@ Game.Load = function(game) {
         game.load.image('buttonMenu', 'assets/menu-button.png');
         game.load.image('buttonRestart', 'assets/restart-button.png');
         game.load.image('background', 'assets/background.png');
+        game.load.image('backgroundMetal','assets/backgroundCityNight.png');
         game.load.image('gameOver', 'assets/gameover.png');
+        game.load.image('survive', 'assets/survive.png');
 
 
 

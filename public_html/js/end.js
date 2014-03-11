@@ -1,20 +1,26 @@
 
 Game.End = function(game) {
-
+    var s;
+    
     this.create = function() {
         /* Create the GAME OVER screen */
         game.world.setBounds(0, 0, 800, 400);
-        this.createButton('buttonRestart',600, 20, this.goRestart);
-        this.createButton('buttonMenu',600, 110, this.goMenu);
+        this.createButton('buttonRestart', 600, 20, this.goRestart);
+        this.createButton('buttonMenu', 600, 110, this.goMenu);
+
+        var text = "Score: " + time;
+        var style = {font: "bold 40pt Arial", fill: "#000000", align: "center", stroke: "#ffffff", strokeThickness: 8};
+
+        s = game.add.text(game.world.centerX, game.world.centerY, text, style);
+        s.anchor.setTo(0.5, 0.5);
     };
 
     this.update = function() {
-
-        /* condition to restart the game */
+        s.angle += 1;
     };
-    
-    this.goRestart = function(){
-        switch(gameState){
+
+    this.goRestart = function() {
+        switch (gameState) {
             case 1:
                 game.state.start('Survival');
                 break;
@@ -29,8 +35,8 @@ Game.End = function(game) {
                 break;
         }
     };
-    
-    this.goMenu = function(){
+
+    this.goMenu = function() {
         game.state.start('Menu');
     };
 };
