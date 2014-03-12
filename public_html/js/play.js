@@ -36,6 +36,7 @@ Game.Play = function() {
         this.player.body.collideWorldBounds = false;
         this.player.animations.add('left', [0, 1, 2, 3], 10, true);
         this.player.animations.add('right', [5, 6, 7, 8], 10, true);
+        this.player.body.setPolygon(5,10,25,10,21,25,21,38,8,38,9,25);
 
     };
 
@@ -43,7 +44,7 @@ Game.Play = function() {
         this.enemies = game.add.group();
         for (var i = 0; i < number; i++) {
             var enemy = this.enemies.create((Math.random() * width) + 300, Math.random() * 300, sprite);
-            enemy.body.bounce.y = 31.0;
+         //   enemy.body.bounce.y = 31.0;
             //  enemy.body.collideWorldBounds = true;
             // enemy.body.gravity.y = -10;
             //  enemy.body.acceleration.y = 400;
@@ -187,7 +188,7 @@ Game.Play = function() {
                 this.enemies.remove(enemy);
                 this.enemies.create((Math.random() * 2990) + 100, Math.random() * 300, 'enemy');
                 this.collectText("+" + 10 * mult);
-                time += 10 * mult;
+                time += 1000 * mult;
                 return;
             }
        

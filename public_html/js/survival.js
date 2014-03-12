@@ -48,10 +48,10 @@ Game.Survival = function(game) {
             this.player.alive = true;
         };
 
-        if ((count >= 30) && this.enemies) {
+        if ((count >= 50) && this.enemies) {
             count = 0;
             game.add.tween(this.enemies.getRandom())
-                    .to({x: this.player.x, y: this.player.y}, 1500, Phaser.Easing.Linear.None)
+                    .to({x: this.player.x, y: this.player.y}, Math.random() * 2000, Phaser.Easing.Linear.None)
                     .start();
         }
 
@@ -72,10 +72,7 @@ Game.Survival = function(game) {
             this.createScore("Score: " + (time += 1 * mult) + " " + mult + "x", 20, 40);
         }
         else
-            this.createScore("Score: " + (time) + " " + mult + "x", 20, 40)
-        /*  game.debug.renderBodyInfo(debug, 32, 32);
-         game.debug.renderSpriteCorners(this.player);
-         game.debug.renderSpriteCorners(debug);*/
+            this.createScore("Score: " + (time) + " " + mult + "x", 20, 40);
     };
 
     this.startSurvive = function() {
