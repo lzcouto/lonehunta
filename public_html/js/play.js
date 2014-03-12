@@ -187,7 +187,7 @@ Game.Play = function() {
                 enemy.kill();
                 this.enemies.remove(enemy);
                 this.enemies.create((Math.random() * 2990) + 100, Math.random() * 300, 'enemy');
-                this.collectText("+" + 10 * mult);
+                this.collectText("+" + 1000 * mult);
                 time += 1000 * mult;
                 return;
             }
