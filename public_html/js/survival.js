@@ -3,28 +3,31 @@ Game.Survival = function(game) {
     var ENEMYNUMBERS = 5;
 
     this.create = function() {
+        this.enemies = null;
         stateChange = false;
         time = 0;
+        mult = 1;
         this.createStage(3000, 399, 'backgroundMetal', 'groundMetal');
         this.createRandomPlatforms(3000, 300, 'platformMetal');
-        this.createControls();
         this.createPlayer(15, 300);
+        this.createControls();
+
         this.createCamera(this.player);
         this.survive = game.add.sprite(game.camera.x + 260, game.camera.y + 75, 'survive');
         this.survive.alpha = 0;
         game.add.tween(this.survive)
-                .to({alpha: 1}, 800, Phaser.Easing.Linear.None, true,0,0,true)
+                .to({alpha: 1}, 800, Phaser.Easing.Linear.None, true, 0, 0, true)
                 .onComplete.add(this.startSurvive, this);
+        this.texts = game.add.group();
     };
 
     this.update = function() {
         this.ledges.setAll("body.velocity.y", 0);
         this.createCollision(this.player, this.platforms, null);
-        this.createCollision(this.player, this.ledges, null);
+        this.createCollision(this.player, this.ledges, this.platformPoints);
         this.createCollision(this.enemies, this.platforms, null);
         this.createCollision(this.player, this.enemies, this.killPlayer);
         this.createCollision(this.enemies, this.ledges, null);
-
         this.playerMovement();
         this.collideLeftRight();
 
@@ -37,12 +40,14 @@ Game.Survival = function(game) {
                     .onComplete.add(function() {
                         stateChange = true;
                     });
-        }
+        }else{
+            this.player.alive = true;
+        };
 
-        if (count >= 50) {
+        if ((count >= 30) && this.enemies) {
             count = 0;
             game.add.tween(this.enemies.getRandom())
-                    .to({x: this.player.x, y: this.player.y}, 1000, Phaser.Easing.Linear.None)
+                    .to({x: this.player.x, y: this.player.y}, 1500, Phaser.Easing.Linear.None)
                     .start();
         }
 
@@ -60,16 +65,17 @@ Game.Survival = function(game) {
 
     this.render = function() {
         if (this.player.alive && this.moving)
-            this.createScore(time++, 20, 60);
+            this.createScore("Score: " + (time++ * mult) + " " + mult + "x", 20, 40);
         else
-            this.createScore(time, 20, 60)
+            this.createScore("Score: " + (time * mult) + " " + mult + "x", 20, 40)
         /*  game.debug.renderBodyInfo(debug, 32, 32);
          game.debug.renderSpriteCorners(this.player);
          game.debug.renderSpriteCorners(debug);*/
     };
-    
-    this.startSurvive = function(){
+
+    this.startSurvive = function() {
         this.survive.kill();
+        this.player.alive = true;
         this.createEnemies(ENEMYNUMBERS, 2990, 'enemy');
     };
 };
