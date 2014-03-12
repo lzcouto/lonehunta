@@ -11,7 +11,7 @@ Game.Survival = function(game) {
         this.createRandomPlatforms(3000, 300, 'platformMetal');
         this.createPlayer(15, 300);
         this.createControls();
-
+        this.createTrophy(2950, 50);
         this.createCamera(this.player);
         this.survive = game.add.sprite(game.camera.x + 260, game.camera.y + 75, 'survive');
         this.survive.alpha = 0;
@@ -19,6 +19,7 @@ Game.Survival = function(game) {
                 .to({alpha: 1}, 800, Phaser.Easing.Linear.None, true, 0, 0, true)
                 .onComplete.add(this.startSurvive, this);
         this.texts = game.add.group();
+        this.location = 1;
     };
 
     this.update = function() {
@@ -28,6 +29,9 @@ Game.Survival = function(game) {
         this.createCollision(this.enemies, this.platforms, null);
         this.createCollision(this.player, this.enemies, this.killPlayer);
         this.createCollision(this.enemies, this.ledges, null);
+        this.createCollision(this.trophy, this.ledges);
+        this.createCollision(this.trophy, this.platforms);
+        this.createCollision(this.player, this.trophy, this.implying);
         this.playerMovement();
         this.collideLeftRight();
 
@@ -64,10 +68,11 @@ Game.Survival = function(game) {
 
 
     this.render = function() {
-        if (this.player.alive && this.moving)
-            this.createScore("Score: " + (time++ * mult) + " " + mult + "x", 20, 40);
+        if (this.player.alive && this.moving){
+            this.createScore("Score: " + (time += 1 * mult) + " " + mult + "x", 20, 40);
+        }
         else
-            this.createScore("Score: " + (time * mult) + " " + mult + "x", 20, 40)
+            this.createScore("Score: " + (time) + " " + mult + "x", 20, 40)
         /*  game.debug.renderBodyInfo(debug, 32, 32);
          game.debug.renderSpriteCorners(this.player);
          game.debug.renderSpriteCorners(debug);*/

@@ -1,6 +1,7 @@
 Game.Play = function() {
     this.currentState;
     this.moving;
+     
     this.createStage = function(width, height, background, platform) {
         
         game.world.setBounds(0, 0, width, height);
@@ -18,6 +19,7 @@ Game.Play = function() {
     };
 
     this.createTrophy = function(spawnWidth, spawnHeight) {
+       
         this.trophy = game.add.sprite(spawnWidth, spawnHeight, 'trophy');
         this.trophy.body.gravity.y = 40;
         this.trophy.body.collideWorldBounds = true;
@@ -151,7 +153,22 @@ Game.Play = function() {
         }
 
     };
-
+    
+    this.implying = function(player, trophy){
+        if(this.location === 1){
+            trophy.kill();
+            mult++;
+            this.createTrophy(10,50);
+            this.location = 2;
+             this.ledges.setAll('health', 2);
+        }else if(this.location === 2){
+            trophy.kill();
+            mult++;
+            this.createTrophy(2990,50);
+            this.location = 1;
+             this.ledges.setAll('health', 2);
+        }
+    };
 
 
     this.createOverlap = function(object1, object2, func) {
@@ -169,7 +186,7 @@ Game.Play = function() {
                 enemy.kill();
                 this.enemies.remove(enemy);
                 this.enemies.create((Math.random() * 2990) + 100, Math.random() * 300, 'enemy');
-                this.collectText("+10");
+                this.collectText("+" + 10 * mult);
                 time += 10 * mult;
                 return;
             }
