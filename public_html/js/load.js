@@ -2,6 +2,7 @@ var gameState = 0;
 var stateChange = false;
 var time = 0;
 var mult = 1;
+var timeP = new Date();
 Game = {};
 
 //Game.Boot = function (game) { };
@@ -51,6 +52,7 @@ Game.Load = function(game) {
         game.load.image('enemy', 'assets/ufo.png');
         game.load.image('ground', 'assets/ground.png');
         game.load.image('groundMetal', 'assets/groundStreet.png');
+        game.load.image('groundMetalFull', 'assets/groundStreetFull.png');
         game.load.image('platform', 'assets/platform.png');
         game.load.image('platformMetal','assets/platformMetal.png');
         game.load.image('buttonSurvival', 'assets/survival-button.png');
