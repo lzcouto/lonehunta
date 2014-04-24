@@ -15,9 +15,9 @@ Game.Casual = function(game) {
         this.createTrophy(2950, 50);
         this.createCamera(this.player);
         this.texts = game.add.group();
-        this.survive = game.add.sprite(game.camera.x + 260, game.camera.y + 75, 'survive');
-        this.survive.alpha = 0;
-        game.add.tween(this.survive)
+        this.casualy = game.add.sprite(game.camera.x + 260, game.camera.y + 75, 'survive');
+        this.casualy.alpha = 0;
+        game.add.tween(this.casualy)
                 .to({alpha: 1}, 800, Phaser.Easing.Linear.None, true, 0, 0, true)
                 .onComplete.add(this.startCasual, this);
         this.location = 1;
@@ -64,7 +64,7 @@ Game.Casual = function(game) {
     };
 
     this.startCasual = function() {
-        this.survive.kill();
+        this.casualy.kill();
         this.player.alive = true;
         this.createEnemies(ENEMYNUMBERS, 2990, 'enemy');
     };

@@ -5,7 +5,7 @@ Game.Play = function() {
     this.createStage = function(width, height, background, platform) {
 
         game.world.setBounds(0, 0, width, height);
-        
+
         for (var i = 0; i < width; i = i + 800) {
             game.add.sprite(i, 0, background);
         }
@@ -44,10 +44,10 @@ Game.Play = function() {
         this.player.body.gravity.y = 600;
         this.player.body.acceleration.y = 1000;
         this.player.body.collideWorldBounds = true;
-        this.player.body.drag.setTo(400,-400);
+        this.player.body.drag.setTo(400, -400);
         this.player.animations.add('left', [0, 1, 2, 3], 10, true);
         this.player.animations.add('right', [5, 6, 7, 8], 10, true);
-   //     this.player.body.setPolygon(5, 10, 25, 10, 21, 25, 21, 38, 8, 38, 9, 25);
+        //     this.player.body.setPolygon(5, 10, 25, 10, 21, 25, 21, 38, 8, 38, 9, 25);
 
     };
 
@@ -61,7 +61,7 @@ Game.Play = function() {
             //  enemy.body.collideWorldBounds = true;
             // enemy.body.gravity.y = -10;
             //  enemy.body.acceleration.y = 400;
-           /* game.add.tween(enemy)
+            /* game.add.tween(enemy)
              .to({x: Math.random() * 3100}, 1000, Phaser.Easing.Linear.None)
              .to({x: Math.random() * 3100}, 1000, Phaser.Easing.Linear.None)
              .to({x: Math.random() * 3100}, 1000, Phaser.Easing.Linear.None)
@@ -69,18 +69,18 @@ Game.Play = function() {
              .to({x: Math.random() * 3100}, 1000, Phaser.Easing.Linear.None)
              .start();*/
         }
-        
-       // this.enemies.setAll('body.bounce.y',31.0);
-        this.enemies.setAll('body.collideWorldBounds',true);
+
+        // this.enemies.setAll('body.bounce.y',31.0);
+        this.enemies.setAll('body.collideWorldBounds', true);
         this.enemies.setAll('body.gravity', -50);
-       this.enemies.setAll('body.acceleration.y',1000);
+        this.enemies.setAll('body.acceleration.y', 1000);
     };
-    
-    this.addOneEnemy = function(){
+
+    this.addOneEnemy = function() {
         this.enemies.create((Math.random() * 2990) + 300, Math.random() * 300, 'enemy');
-         this.enemies.setAll('body.collideWorldBounds',true);
+        this.enemies.setAll('body.collideWorldBounds', true);
         this.enemies.setAll('body.gravity', -50);
-       this.enemies.setAll('body.acceleration.y',1000);
+        this.enemies.setAll('body.acceleration.y', 1000);
     };
 
 
@@ -159,11 +159,12 @@ Game.Play = function() {
             // onde se decrementa a altura do salto em relação a posicao do ultimo ledge
             var min = (lastY - JMP_HEIGHT);
             y = Math.random() * (height - min) + min;
-            if(y < 100)
+            if (y < 100)
                 y += 100;
         }
+        ;
 
-       
+
         this.ledges.setAll('body.immovable', true);
         this.ledges.setAll('body.collideWorldBounds', true);
         this.ledges.setAll('health', 2);
@@ -182,6 +183,7 @@ Game.Play = function() {
         } else {
             game.physics.arcade.collide(object1, object2);
         }
+        ;
 
     };
 
@@ -199,16 +201,18 @@ Game.Play = function() {
             this.location = 1;
             this.ledges.setAll('health', 2);
         }
+        ;
     };
 
 
     this.createOverlap = function(object1, object2, func) {
-        if(func)
+        if (func)
         {
             game.physics.arcade.overlap(object1, object2, func, null, this);
         } else {
             game.physics.arcade.overlap(object1, object2);
         }
+        ;
     };
 
     this.killPlayerCasual = function(player, enemy) {
@@ -220,20 +224,21 @@ Game.Play = function() {
             time += 1000 * mult;
             player.body.velocity.y = -700;
             return;
-        }else{
-        var gameover = game.add.sprite(game.camera.x + 260, game.camera.y + 75, 'gameOver');
-        gameover.alpha = 0;
-        game.add.tween(gameover)
-                .to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true)
-                .onComplete.add(function() {
-                    stateChange = true;
-                });
-        player.alive = false;
-        player.kill();
+        } else {
+            var gameover = game.add.sprite(game.camera.x + 260, game.camera.y + 75, 'gameOver');
+            gameover.alpha = 0;
+            game.add.tween(gameover)
+                    .to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true)
+                    .onComplete.add(function() {
+                        stateChange = true;
+                    });
+            player.alive = false;
+            player.kill();
         }
+        ;
     };
-    
-    this.killPlayerSurvival = function(player, enemy){
+
+    this.killPlayerSurvival = function(player, enemy) {
         if (player.body.touching.down && enemy.body.touching.up)
         {
             enemy.kill();
@@ -241,19 +246,46 @@ Game.Play = function() {
             this.collectText("KILL");
             player.body.velocity.y = -700;
             return;
-        }else{
-        time = timeP;
-        var gameover = game.add.sprite(game.camera.x + 260, game.camera.y + 75, 'gameOver');
-        gameover.alpha = 0;
-        game.add.tween(gameover)
-                .to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true)
-                .onComplete.add(function() {
-                    stateChange = true;
-                });
-        player.alive = false;
-        player.kill();
+        } else {
+            time = timeP;
+            var gameover = game.add.sprite(game.camera.x + 260, game.camera.y + 75, 'gameOver');
+            gameover.alpha = 0;
+            game.add.tween(gameover)
+                    .to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true)
+                    .onComplete.add(function() {
+                        stateChange = true;
+                    });
+            player.alive = false;
+            player.kill();
         }
-    }
+        ;
+    };
+
+    this.killPlayerTimeAttack = function(player, enemy) {
+        if (player.body.touching.down && enemy.body.touching.up)
+        {
+            enemy.kill();
+            this.enemies.create((Math.random() * 2990) + 100, Math.random() * 300, 'enemy');
+            this.collectText("+10HP");
+            player.health += 10;
+            player.body.velocity.y = -400;
+            return;
+        } else {
+            player.kill();
+            player.alive = false;
+            if (player.alive === false) {
+                time = timeP;
+                var gameover = game.add.sprite(game.camera.x + 260, game.camera.y + 75, 'gameOver');
+                gameover.alpha = 0;
+                game.add.tween(gameover)
+                        .to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true)
+                        .onComplete.add(function() {
+                            stateChange = true;
+                        });
+            }
+        }
+        ;
+    };
 
 
     this.killEnemiy = function() {
